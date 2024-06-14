@@ -10,23 +10,25 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:mysecretpassword@localhost:5432/postgres"
+  url      = "postgresql://postgres:123456@localhost:5432/postgres"
 }
 
 model User{
   id Int @id @default(autoincrement())
-  email String @unique
-  firstName String
-  lastName String?
+  username String @unique
   password String
-  phoneNumber String?
-  countryCode String @default("+91")
+  email String @unique
+  firstName String? 
+  lastName String?
+  todos Todo[]
+
 }
 
-model Todo{
+model Todo {
   id Int @id @default(autoincrement())
   title String
-  description String?
-  done Boolean @default(false)
+  description String
+  completed Boolean @default(false)
   userId Int 
+  user User @relation(fields: [userId],references: [id])
 }
